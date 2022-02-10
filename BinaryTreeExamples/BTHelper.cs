@@ -8,6 +8,8 @@ namespace BinaryTreeExamples
     //כאן יופיעו כל הפעולות העזר עבור עצים
     class BTHelper
     {
+        #region Test
+            #end region
         #region יצירת עץ
         public static BinNode<int> CreateTree()
         {
