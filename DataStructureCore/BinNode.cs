@@ -41,14 +41,14 @@ namespace DataStructureCore
         {
             return (left != null);
         }
-        public bool Isleaf()
-        {
-            if (!this.HasRight() && !this.HasLeft())
-            {
-                return true;
-            }
-            return false;
-        }
+        //public bool Isleaf()
+        //{
+        //    if (!this.HasRight() && !this.HasLeft())
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public bool HasRight()
         {
