@@ -199,6 +199,7 @@ namespace BinaryTreeExamples
 
             //ניתן לרשום את שורות 189 - 196 בשורה אחת
             //return (root.GetValue().Equals(val) || IsExistsInTree(root.GetLeft(), val) || IsExistsInTree(root.GetRight(), val));
+            //
         }
         #endregion
         #endregion
