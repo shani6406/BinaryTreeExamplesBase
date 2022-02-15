@@ -7,9 +7,6 @@ namespace BinaryTreeExamples
        
         static void Main(string[] args)
         {
-          
-          
-
             BinNode<int> root = new BinNode<int>(54);
             BinNode<int> left = new BinNode<int>(null, 48, new BinNode<int>(55));
             BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 77, null);
