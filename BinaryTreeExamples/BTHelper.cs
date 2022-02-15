@@ -360,10 +360,17 @@ namespace BinaryTreeExamples
         /// הפעולה תחזיר מערך בגודל 2 - בתא 0 יוחזר הרמה שמכילה את הכי הרבה צמתים
         /// ובתא 1 - הרוחב של העץ
         /// נגדיר h - גובה של העץ
-        /// נגדיר n- כמות הצמתים ברמה המבוקשת
-        /// CountNodesInLevel - במקרה הגרוע זו הרמה האחרונה ולכן O(n)
+        /// נגדיר n- כמות הצמתים בעץ
+        /// CountNodesInLevel -  O(n)
+        /// הפעולה מחשבת גובה ואז רצה בלולאה כגובה העץ ולכן נקבל
         /// 
-        /// o(h) * O(n)
+        /// o(h)+(o(h) * O(n)).
+        /// ==>(o(h) * O(n))
+        /// במקרה הגרוע זה עץ שרשרת (כמו שרשרת חוליות רגילה)
+        /// במקרה כזה 
+        /// h==n
+        /// ולכן
+        /// O(n^2)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
@@ -455,6 +462,16 @@ namespace BinaryTreeExamples
         #endregion
 
         #region חישוב רוחב של עץ באמצעות מערך מונים
+        /// <summary>
+        /// n= כמות הצמתים
+        /// CountNodesInLevel- מבצעת סריקה אחת על העץ ולכן O(n)
+        /// FindMax- במקרה של עץ שרשרת (כמו שרשרת חוליות)- O(n)
+        /// ולכן קיבלנו
+        /// O(n) + O(n)=O(n)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="root"></param>
+        /// <returns></returns>
         public static int[] BinTreeWidthVersion2<T>(BinNode<T> root)
         {
             //מערך בגודל גובה העץ + 1 )
