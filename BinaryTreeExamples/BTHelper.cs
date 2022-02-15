@@ -8,7 +8,7 @@ namespace BinaryTreeExamples
     //כאן יופיעו כל הפעולות העזר עבור עצים
     class BTHelper
     {
-    
+
         #region יצירת עץ
         public static BinNode<int> CreateTree()
         {
@@ -84,7 +84,7 @@ namespace BinaryTreeExamples
             if (root == null)
                 return;
             //נדפיס את השורש
-            Console.Write(root.GetValue()+",");
+            Console.Write(root.GetValue() + ",");
             //נדפיס את תת העץ השמאלי
             PrintPreOrder(root.GetLeft());
             //נדפיס את תת העץ הימני
@@ -104,7 +104,7 @@ namespace BinaryTreeExamples
             //אם ריק- לא נדפיס כלום
             if (root == null)
                 return;
-           
+
             //נדפיס את תת העץ השמאלי
             PrintPreOrder(root.GetLeft());
             //נדפיס את השורש
@@ -129,7 +129,7 @@ namespace BinaryTreeExamples
 
             //נדפיס את תת העץ השמאלי
             PrintPreOrder(root.GetLeft());
-           
+
             //נדפיס את תת העץ הימני
             PrintPreOrder(root.GetRight());
 
@@ -171,7 +171,7 @@ namespace BinaryTreeExamples
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
         /// <returns></returns>
-        public static int CountTreeNodes<T> (BinNode<T> root)
+        public static int CountTreeNodes<T>(BinNode<T> root)
         {
             //אין שורש או הגענו לקצה של העץ
             if (root == null)
@@ -182,7 +182,7 @@ namespace BinaryTreeExamples
         #endregion
 
         #region האם ערך קיים בעץ
-        public static bool IsExistsInTree<T>(BinNode<T> root,T val)
+        public static bool IsExistsInTree<T>(BinNode<T> root, T val)
         {
             //עץ ריק או הגענו לקצה - הערך לא נמצא...
             if (root == null)
@@ -199,8 +199,82 @@ namespace BinaryTreeExamples
 
             //ניתן לרשום את שורות 189 - 196 בשורה אחת
             //return (root.GetValue().Equals(val) || IsExistsInTree(root.GetLeft(), val) || IsExistsInTree(root.GetRight(), val));
+
         }
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static bool EachHasTwoChilds<T>(BinNode<T> root)
+        {
+            //אם הגענו לסוף העץ או שהעץ ריק - סימן שהכל תקין
+            if (root == null)
+                return true;
+            //מקרים2 : אם אין לו ילדים -  עלה
+            if (IsLeaf(root))
+                return true;
+            //אם חסר לו ילד שמאלי או ילד ימני - מצאנו צומת בעייתית.
+            if (!root.HasLeft() || !root.HasRight())
+                return false;
+            //נבדוק  את תתי העצים
+            return EachHasTwoChilds(root.GetLeft()) && EachHasTwoChilds(root.GetRight());
+        }
+
+        /// <summary>
+        /// עמ 176 שאלה 9 מהספר
+        /// </summary>
+        /// <param name="root"></param>
+        public static void UpdateCharTree(BinNode<char> root)
+            {
+            if (root == null)
+                return;
+            if (root.GetValue() == 'z')
+            {
+                root.SetValue('a');
+            }
+            else
+                root.SetValue((char)(root.GetValue() + 1));
+
+            UpdateCharTree(root.GetLeft());
+        
+            UpdateCharTree(root.GetRight());
+         
+        }
+
+        /// <summary>
+        /// תרגיל 14
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        
+        public static int CountLeaves<T>(BinNode<T> root)
+        {
+            if (root == null)
+                return 0;
+            if (!root.HasLeft()&&!root.HasRight())
+                return 1;
+            return CountLeaves(root.GetLeft()) + CountLeaves(root.GetRight());
+
+                
+        }
+     /// <summary>
+     /// שאלה 12
+     /// </summary>
+     /// <param name="root"></param>
+     /// <returns></returns>
+        public static int CountBiggerInBetween(BinNode<double> root)
+        {
+            if (root == null)
+                return 0;
+            if (root.GetValue() >= 10 && root.GetValue() <= 100)
+                return 1 + CountBiggerInBetween(root.GetLeft()) + CountBiggerInBetween(root.GetRight());
+            return CountBiggerInBetween(root.GetLeft()) + CountBiggerInBetween(root.GetRight());
+        }
+
         #endregion
 
 
