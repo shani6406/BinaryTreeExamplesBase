@@ -228,7 +228,7 @@ namespace BinaryTreeExamples
         /// </summary>
         /// <param name="root"></param>
         public static void UpdateCharTree(BinNode<char> root)
-            {
+        {
             if (root == null)
                 return;
             if (root.GetValue() == 'z')
@@ -239,9 +239,9 @@ namespace BinaryTreeExamples
                 root.SetValue((char)(root.GetValue() + 1));
 
             UpdateCharTree(root.GetLeft());
-        
+
             UpdateCharTree(root.GetRight());
-         
+
         }
 
         /// <summary>
@@ -250,22 +250,22 @@ namespace BinaryTreeExamples
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
         /// <returns></returns>
-        
+
         public static int CountLeaves<T>(BinNode<T> root)
         {
             if (root == null)
                 return 0;
-            if (!root.HasLeft()&&!root.HasRight())
+            if (!root.HasLeft() && !root.HasRight())
                 return 1;
             return CountLeaves(root.GetLeft()) + CountLeaves(root.GetRight());
 
-                
+
         }
-     /// <summary>
-     /// שאלה 12
-     /// </summary>
-     /// <param name="root"></param>
-     /// <returns></returns>
+        /// <summary>
+        /// שאלה 12
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
         public static int CountBiggerInBetween(BinNode<double> root)
         {
             if (root == null)
@@ -313,7 +313,7 @@ namespace BinaryTreeExamples
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
         /// <param name="targetLevel"></param>
-        public static void PrintNodesInLevel<T>(BinNode<T>root, int targetLevel)
+        public static void PrintNodesInLevel<T>(BinNode<T> root, int targetLevel)
         {
             if (root == null)
                 Console.WriteLine("Nothing To Print");
@@ -340,7 +340,7 @@ namespace BinaryTreeExamples
             }
             //הגענו לרמה שלנו!
             else if (targetLevel == currentLevel)
-                Console.Write(root.GetValue()+" ");
+                Console.Write(root.GetValue() + " ");
             else
             {
                 PrintNodesInLevel(root.GetLeft(), targetLevel, currentLevel + 1);
@@ -393,7 +393,7 @@ namespace BinaryTreeExamples
             //אם העץ הוא רק צומת אחת - עץ עלה
             //סיימנו
             if (height == 0)
-                return width ;
+                return width;
 
             //אחרת נבדוק כמה צמתים יש בכל רמה
             //אם הרמה מכילה את הכמות המקסימלית- נעדכן את המערך שלנו
@@ -401,7 +401,7 @@ namespace BinaryTreeExamples
             {
                 //נבדוק מה רוחב רמה הנוכחית
                 int currentWidth = CountNodesInLevel(root, currentTreeLevel);
-                if(currentWidth>width[MAX_WIDTH_CELL])
+                if (currentWidth > width[MAX_WIDTH_CELL])
                 {
                     width[MAX_LEVEL_CELL] = currentTreeLevel;
                     width[MAX_WIDTH_CELL] = currentWidth;
@@ -410,7 +410,7 @@ namespace BinaryTreeExamples
 
             return width;
 
-            
+
         }
         #endregion
 
@@ -476,14 +476,14 @@ namespace BinaryTreeExamples
         {
             //מערך בגודל גובה העץ + 1 )
             //כי יש 1 יותר רמות מגובה העץ
-            int[] treeLevels = new int[BinTreeHight(root) +1];
+            int[] treeLevels = new int[BinTreeHight(root) + 1];
             int currentLevel = 0;
             //המערך יכיל בסוף הפעולה בכל רמה את כמות הצמתים שלה
             CountNodesInLevel(root, treeLevels, currentLevel);
             //יוחזר מערך המכיל את הרמה המקסימלית והערך המקסימלי באותה רמה
             return FindMax(treeLevels);
-           
-            
+
+
         }
 
 
@@ -506,7 +506,7 @@ namespace BinaryTreeExamples
             CountNodesInLevel(root.GetLeft(), treeLevels, currentLevel + 1);
             CountNodesInLevel(root.GetRight(), treeLevels, currentLevel + 1);
         }
-        
+
         /// <summary>
         /// מציאת מקסימום במערך.
         /// הפעולה מחזירה מערך בגודל 2
@@ -524,9 +524,9 @@ namespace BinaryTreeExamples
             maxWidth[MAX_WIDTH_CELL] = 1;
             for (int i = 0; i < treeLevels.Length; i++)
             {
-               if(treeLevels[i]>maxWidth[MAX_WIDTH_CELL])
+                if (treeLevels[i] > maxWidth[MAX_WIDTH_CELL])
                 {
-                    maxWidth[MAX_LEVEL_CELL]= i;
+                    maxWidth[MAX_LEVEL_CELL] = i;
                     maxWidth[MAX_WIDTH_CELL] = treeLevels[i];
                 }
             }
@@ -535,7 +535,178 @@ namespace BinaryTreeExamples
         #endregion
         #endregion
 
-    }
+        #region Binary Search Tree
+
+        #region הוספת ערך לעץ חיפוש
+        public static void AddToBST(BinNode<int> t, int x)
+        {
+            if (t.GetValue() > x)
+            {
+                if (!t.HasLeft())
+                    t.SetLeft(new BinNode<int>(x));
+                else
+                    AddToBST(t.GetLeft(), x);
+            }
+            else
+            {
+                if (!t.HasRight())
+                    t.SetRight(new BinNode<int>(x));
+                else
+                    AddToBST(t.GetRight(), x);
+            }
+
+        }
+        #endregion
+
+        #region מקסימום/מינימום בעץ חיפוש
+        public static int FindMaxInBST(BinNode<int> t)
+        {
+            //int min=t.GetValue();
+            int max = t.GetValue();
+            //while(t.HasLeft())
+            while (t.HasRight())
+            {
+                //t=t.GetLeft();
+                t = t.GetRight();
+                //min=t.GetValue();
+                max = t.GetValue();
+            }
+            //return min;
+            return max;
+        }
+        #endregion
+
+        #region האם עץ חיפוש
+
+        /// <summary>
+        /// כל צומת צריך להיות גדול יותר מהכי גדול בתת העץ השמאלי שלו
+        /// ויותר קטן מהכי קטן בתת עץ הימני שלו
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsBST(BinNode<int> t)
+        {
+            if (t == null)
+                return true;
+
+            if (t.GetValue() <= FindMax(t.GetLeft()))
+                return false;
+            if (t.GetValue() > FindMin(t.GetRight()))
+                return false;
+            return IsBST(t.GetLeft()) && IsBST(t.GetRight());
+
+        }
+
+        public static int FindMin(BinNode<int> t)
+        {
+            if (t == null)
+                return int.MaxValue;
+            if (IsLeaf(t))
+            {
+                return t.GetValue();
+            }
+            return Math.Min(t.GetValue(), Math.Min(FindMin(t.GetLeft()), FindMin(t.GetRight())));
+        }
+
+
+        public static int FindMax(BinNode<int> t)
+        {
+            if (t == null)
+                return int.MinValue;
+            if (IsLeaf(t))
+            {
+                return t.GetValue();
+            }
+            return Math.Max(t.GetValue(), Math.Max(FindMax(t.GetLeft()), FindMax(t.GetRight())));
+        }
+        #endregion
+
+        #region מצא הורה בעץ חיפוש
+        public static BinNode<int> FindParent(BinNode<int> root, BinNode<int> child)
+        {
+            if (root == null || root == child)
+                return null;
+
+            if (child.GetValue() < root.GetValue())
+            {
+                if (root.HasLeft())
+                {
+                    if (root.GetLeft() == child)
+                        return root;
+                    else
+                        return FindParent(root.GetLeft(), child);
+                }
+                return null;
+            }
+            else if (child.GetValue() > root.GetValue())
+            {
+                if (root.HasRight())
+                {
+                    if (root.GetRight() == child)
+                        return root;
+                    else
+                        return FindParent(root.GetRight(), child);
+                }
+
+            }
+            return null;
+        }
+            #endregion
+
+            #region מחיקת ערך בעץ חיפוש
+            //            The node has no children(it's a leaf node). You can delete it. ...
+            //The node has just one child.To delete the node, replace it with that child. ...
+            //The node has two children.In this case, find the MAX in the LEFT Side of the node. (or MIN of the RIGHT SIDE OF THE NODE)
+
+            public static BinNode<int> RemoveFromBST(BinNode<int> root, int key)
+            {
+
+
+                if (root == null)
+                    return root;
+                
+             
+                if (root.GetValue() > key)
+                {
+                   BinNode<int> parent = RemoveFromBST(root.GetLeft(), key);
+                    root.SetLeft(parent);
+                }
+                if (root.GetValue() < key)
+                {
+                    BinNode<int> parent = RemoveFromBST(root.GetRight(), key);
+                    root.SetRight(parent);
+                }
+
+
+                if (root.GetValue() == key)
+                {
+                    if (!root.HasLeft() && !root.HasRight())
+                        return null;
+                    if (!root.HasLeft())
+                        return root.GetRight();
+                    if (!root.HasRight())
+                        return root.GetLeft();
+                    else
+                    {
+                        int maxval = FindMaxInBST(root.GetLeft());
+                        root.SetValue(maxval);
+                        root.SetLeft(RemoveFromBST(root.GetLeft(), maxval));
+                    }
+                }
+                return root;
+            }
+        }
+
+
+               
+
+
+                #endregion
+                #endregion
+
+            
+       
+
 
 
 
