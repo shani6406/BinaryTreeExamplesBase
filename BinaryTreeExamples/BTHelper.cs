@@ -80,15 +80,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintPreOrder<T>(BinNode<T> root)
         {
-            //אם ריק- לא נדפיס כלום
-            if (root == null)
-                return;
-            //נדפיס את השורש
-            Console.Write(root.GetValue() + ",");
-            //נדפיס את תת העץ השמאלי
-            PrintPreOrder(root.GetLeft());
-            //נדפיס את תת העץ הימני
-            PrintPreOrder(root.GetRight());
+         
 
         }
         #endregion
@@ -101,16 +93,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintInOrder<T>(BinNode<T> root)
         {
-            //אם ריק- לא נדפיס כלום
-            if (root == null)
-                return;
-
-            //נדפיס את תת העץ השמאלי
-            PrintPreOrder(root.GetLeft());
-            //נדפיס את השורש
-            Console.Write(root.GetValue() + ",");
-            //נדפיס את תת העץ הימני
-            PrintPreOrder(root.GetRight());
+           
 
         }
         #endregion
@@ -123,18 +106,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void PrintPostOrder<T>(BinNode<T> root)
         {
-            //אם ריק- לא נדפיס כלום
-            if (root == null)
-                Console.WriteLine("end");
-
-            //נדפיס את תת העץ השמאלי
-            PrintPreOrder(root.GetLeft());
-
-            //נדפיס את תת העץ הימני
-            PrintPreOrder(root.GetRight());
-
-            //נדפיס את השורש
-            Console.Write(root.GetValue() + ",");
+           
 
         }
         #endregion
@@ -173,32 +145,14 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static int CountTreeNodes<T>(BinNode<T> root)
         {
-            //אין שורש או הגענו לקצה של העץ
-            if (root == null)
-                return 0;
-            //נספור את הצומת הנוכחית + כמות הצמתים בתת עץ שמאל+ כמות הצמתים בתת עץ ימין
-            return 1 + CountTreeNodes(root.GetLeft()) + CountTreeNodes(root.GetRight());
+           
         }
         #endregion
 
         #region האם ערך קיים בעץ
         public static bool IsExistsInTree<T>(BinNode<T> root, T val)
         {
-            //עץ ריק או הגענו לקצה - הערך לא נמצא...
-            if (root == null)
-                return false;
-            //אם הערך בשורש הנוכחי שווה לערך שמחפשים - מצאנו!
-            if (root.GetValue().Equals(val))
-                return true;
-            //נבדוק אם הערך נמצא בצד שמאל
-            bool left = IsExistsInTree(root.GetLeft(), val);
-            //נבדוק אם הערך נמצא בצד ימין
-            bool right = IsExistsInTree(root.GetRight(), val);
-            //נחזיר אם הוא נמצא בתת עץ שמאל או בתת עץ ימין
-            return left || right;
-
-            //ניתן לרשום את שורות 189 - 196 בשורה אחת
-            //return (root.GetValue().Equals(val) || IsExistsInTree(root.GetLeft(), val) || IsExistsInTree(root.GetRight(), val));
+            
 
         }
         #endregion
@@ -210,17 +164,7 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static bool EachHasTwoChilds<T>(BinNode<T> root)
         {
-            //אם הגענו לסוף העץ או שהעץ ריק - סימן שהכל תקין
-            if (root == null)
-                return true;
-            //מקרים2 : אם אין לו ילדים -  עלה
-            if (IsLeaf(root))
-                return true;
-            //אם חסר לו ילד שמאלי או ילד ימני - מצאנו צומת בעייתית.
-            if (!root.HasLeft() || !root.HasRight())
-                return false;
-            //נבדוק  את תתי העצים
-            return EachHasTwoChilds(root.GetLeft()) && EachHasTwoChilds(root.GetRight());
+           
         }
 
         /// <summary>
@@ -229,18 +173,7 @@ namespace BinaryTreeExamples
         /// <param name="root"></param>
         public static void UpdateCharTree(BinNode<char> root)
             {
-            if (root == null)
-                return;
-            if (root.GetValue() == 'z')
-            {
-                root.SetValue('a');
-            }
-            else
-                root.SetValue((char)(root.GetValue() + 1));
-
-            UpdateCharTree(root.GetLeft());
-        
-            UpdateCharTree(root.GetRight());
+           
          
         }
 
@@ -253,12 +186,7 @@ namespace BinaryTreeExamples
         
         public static int CountLeaves<T>(BinNode<T> root)
         {
-            if (root == null)
-                return 0;
-            if (!root.HasLeft()&&!root.HasRight())
-                return 1;
-            return CountLeaves(root.GetLeft()) + CountLeaves(root.GetRight());
-
+           
                 
         }
      /// <summary>
@@ -268,11 +196,7 @@ namespace BinaryTreeExamples
      /// <returns></returns>
         public static int CountBiggerInBetween(BinNode<double> root)
         {
-            if (root == null)
-                return 0;
-            if (root.GetValue() >= 10 && root.GetValue() <= 100)
-                return 1 + CountBiggerInBetween(root.GetLeft()) + CountBiggerInBetween(root.GetRight());
-            return CountBiggerInBetween(root.GetLeft()) + CountBiggerInBetween(root.GetRight());
+          
         }
 
         #endregion
