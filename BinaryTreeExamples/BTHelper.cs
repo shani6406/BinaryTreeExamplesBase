@@ -103,6 +103,7 @@ namespace BinaryTreeExamples
         #endregion
 
 
+        #region ספירה
         public static int CountPreorder<T>(BinNode<T> root)
         {
             if (root == null)
@@ -121,7 +122,57 @@ namespace BinaryTreeExamples
                 return 0; 
             return CountPostOrder(root.GetLeft())+CountPostOrder(root.GetRight())+1;
         }
+        #endregion
 
+        public static bool IsExistInTree<T>(BinNode<T> root, T val)
+        {
+            if (root == null)
+                return false;
+            //בשורש או בצן ימין או בצד שמאל
+            return root.GetValue().Equals(val)||IsExistInTree(root.GetLeft(), val)||IsExistInTree(root.GetRight(),val);
+        }
+
+        
+
+        public static bool IsLeaf<T>(BinNode<T>root)
+        {
+            //עץ ריק הוא לא עלה
+            if (root == null)
+                return false;
+            //לעלה אין ילד שמאלי ואין ילד ימני. אם אין יוחזר אמת. אחרת יוחזר שקר
+            return !root.HasLeft() && !root.HasRight(); 
+        }
+        public static bool EachHasTwoChilds<T>(BinNode<T> root)
+        {
+            if (root == null)
+                return true;
+            return (!root.HasLeft()&&!IsLeaf(root))|| (!root.HasRight()&&!IsLeaf(root))&&EachHasTwoChilds(root.GetRight())&&EachHasTwoChilds(root.GetLeft());
+        }
+
+        //פעולה המקבלץ עץ בינארי של אותיות קטנות ומעדכנת את הערכים של כל הצמתים להיות האות העוקבת באופן מעגלי
+        public static void UpdateLetters(BinNode<char> root)
+        {
+            if (root != null)
+            {
+                root.SetValue((char)(((root.GetValue()-'a' + 1)%26)+'a'));
+          
+                UpdateLetters(root.GetLeft());
+                UpdateLetters(root.GetRight());
+            }
+        }
+
+        //פעולה גנרית המקבלת עץ ודפיסה את כל העלים בעץ משמאל לימין
+        public static void PrintLeafs<T>(BinNode<T>root)
+        {
+            if(root != null)
+            {
+                if(IsLeaf(root))
+                    Console.WriteLine(root.GetValue());
+               PrintLeafs(root.GetLeft());
+                PrintLeafs(root.GetRight());
+
+            }
+        }
     }
 
 
