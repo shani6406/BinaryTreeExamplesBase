@@ -17,7 +17,7 @@ namespace BinaryTreeExamples
             root.SetLeft(left);
             BTHelper.PrintInOrder(root);
             Console.WriteLine(BTHelper.IsExistInTree(root, 48));
-
+            //Console.WriteLine(bt);
             //  Console.WriteLine("InOrder:");
             //  BTHelper.PrintInOrder(root);
             //  Console.WriteLine();

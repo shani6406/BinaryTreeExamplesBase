@@ -149,7 +149,7 @@ namespace BinaryTreeExamples
             return (!root.HasLeft()&&!IsLeaf(root))|| (!root.HasRight()&&!IsLeaf(root))&&EachHasTwoChilds(root.GetRight())&&EachHasTwoChilds(root.GetLeft());
         }
 
-        //פעולה המקבלץ עץ בינארי של אותיות קטנות ומעדכנת את הערכים של כל הצמתים להיות האות העוקבת באופן מעגלי
+        //פעולה המקבלת עץ בינארי של אותיות קטנות ומעדכנת את הערכים של כל הצמתים להיות האות העוקבת באופן מעגלי
         public static void UpdateLetters(BinNode<char> root)
         {
             if (root != null)
@@ -161,7 +161,7 @@ namespace BinaryTreeExamples
             }
         }
 
-        //פעולה גנרית המקבלת עץ ודפיסה את כל העלים בעץ משמאל לימין
+        //פעולה גנרית המקבלת עץ ומדפיסה את כל העלים בעץ משמאל לימין
         public static void PrintLeafs<T>(BinNode<T>root)
         {
             if(root != null)
@@ -172,6 +172,42 @@ namespace BinaryTreeExamples
                 PrintLeafs(root.GetRight());
 
             }
+        }
+
+        //פעולה גנרית המחזירה אמת אם צומת מהווה בן לאב יחיד
+        public static bool IsSingleParent<T>(BinNode<T> node)
+        {
+            if(node==null)
+                return false;
+            return ((node.HasLeft() && !node.HasRight()) || (node.HasRight() && !node.HasLeft()));
+        }
+        //פעולה המחזירה את מספר הבנים היחידים בעץ
+        public static int CountSingleParents<T>(BinNode<T> root)
+        {
+            if (root == null)
+                return 0;
+            if (IsSingleParent(root))
+                return 1+CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
+            return CountSingleParents(root.GetLeft())+CountSingleParents(root.GetRight());
+
+        }
+        //פעולה המקבלת עץ בינארי של מספרים שלמים ומחזירה את מספר הבנים היחידים שיש להם בן יחיד
+        public static int CountSingleChild(BinNode<int> root)
+        {
+            if (root == null)
+                return 0;
+            if (IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight())
+                return 1+CountSingleChild(root.GetLeft()) + CountSingleChild(root.GetRight());
+            return CountSingleChild(root.GetLeft()) + CountSingleChild(root.GetRight());
+        }
+
+        public static int BinTreeHight<T>(BinNode<T>root)
+        {
+            if (root == null)
+                return 0;
+            if ((IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight())))
+                return 1 + CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
+            return CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
         }
     }
 
