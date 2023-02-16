@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
+//using System.ComponentModel.Design.Serialization;
 using System.Text;
 using DataStructureCore;
 
@@ -69,7 +70,6 @@ namespace BinaryTreeExamples
 
 
         #endregion
-
 
 
         #region הדפסה
@@ -196,11 +196,11 @@ namespace BinaryTreeExamples
         {
             if (root == null)
                 return 0;
-            if (IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight())
+            if (IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight()))
                 return 1+CountSingleChild(root.GetLeft()) + CountSingleChild(root.GetRight());
             return CountSingleChild(root.GetLeft()) + CountSingleChild(root.GetRight());
         }
-
+         //הגובה של העץ
         public static int BinTreeHight<T>(BinNode<T>root)
         {
             if (root == null)
@@ -208,6 +208,83 @@ namespace BinaryTreeExamples
             if ((IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight())))
                 return 1 + CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
             return CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
+        }
+        //הפעולה "מסלול עולה" - מחזירה אמת אם יש בעץ מסלול המתחיל בשורש העץ ומסתיים באחד העלים שלו,ן
+        //וערכי הצמתים ממוינים בסדר עולה מהשורש לעלה אם אין מסלול כזה הפעולה תחזיר שקר
+        public static bool UpPath(BinNode<int> tr)
+        {
+            if(tr==null) return false;
+            if(IsLeaf(tr)) return true;
+            if (tr.HasLeft())
+            {
+                if (tr.GetValue() < tr.GetLeft().GetValue())
+                    return UpPath(tr.GetLeft());
+            }
+            if (tr.HasRight())
+            {
+                if (tr.GetValue() < tr.GetRight().GetValue())
+                    return UpPath(tr.GetRight());
+            }
+            return false;
+        }
+        //סריקת רוחב
+        public static void BradthSearch<T>(BinNode<T> root)
+        {
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            queue.Insert(root);
+            while(!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                Console.WriteLine(node.GetValue());
+                if(node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if(node.HasRight())
+                    queue.Insert(node.GetRight());
+            }
+        }
+        public static int MaxBradthSearch(BinNode<int> root)
+        {
+            int max = root.GetValue();
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            queue.Insert(root);
+            while(!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                if(node.GetValue() > max)
+                    max = node.GetValue();
+                if(node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if(node.HasRight())
+                    queue.Insert(node.GetRight());
+            }
+            return max;
+        }
+        public static int WhichLevel(BinNode<int> root, int x)
+        {
+            int level = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            queue.Insert(root);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                if (node.GetValue() == x)
+                    return level; 
+                if(node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    level++;
+                } 
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    level++;
+                }
+                   
+            }
+
         }
     }
 
