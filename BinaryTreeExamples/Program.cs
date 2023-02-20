@@ -16,7 +16,10 @@ namespace BinaryTreeExamples
             root.SetRight(right);
             root.SetLeft(left);
             BTHelper.PrintInOrder(root);
-            Console.WriteLine(BTHelper.IsExistInTree(root, 48));
+            Console.WriteLine(BTHelper.LevelDifference(root, 54, 63));
+            BTHelper.PrintLevel(root, 1);
+            BTHelper.PrintEvenLevels(root);
+            //Console.WriteLine(BTHelper.IsExistInTree(root, 48));
             //Console.WriteLine(bt);
             //  Console.WriteLine("InOrder:");
             //  BTHelper.PrintInOrder(root);
@@ -87,16 +90,16 @@ namespace BinaryTreeExamples
 
 
 
-            BinNode<char> rootLetters = new BinNode<char>('a');
-            BinNode<char> rightLetters = new BinNode<char>('z');
-            BinNode<char> leftLetters = new BinNode<char>('s');
-            rootLetters.SetLeft(leftLetters);
-            rootLetters.SetRight(rightLetters);
-            BTHelper.PrintInOrder(rootLetters);
-            BTHelper.UpdateLetters(rootLetters);
-            BTHelper.PrintInOrder(rootLetters);
+            //BinNode<char> rootLetters = new BinNode<char>('a');
+            //BinNode<char> rightLetters = new BinNode<char>('z');
+            //BinNode<char> leftLetters = new BinNode<char>('s');
+            //rootLetters.SetLeft(leftLetters);
+            //rootLetters.SetRight(rightLetters);
+            //BTHelper.PrintInOrder(rootLetters);
+            //BTHelper.UpdateLetters(rootLetters);
+            //BTHelper.PrintInOrder(rootLetters);
 
-            BTHelper.PrintLeafs(root);
+            //BTHelper.PrintLeafs(root);
             Console.ReadKey();
         }
     }

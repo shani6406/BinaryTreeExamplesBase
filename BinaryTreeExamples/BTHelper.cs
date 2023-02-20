@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 //using System.Collections.Generic;
 //using System.ComponentModel.Design.Serialization;
 using System.Text;
@@ -261,30 +262,138 @@ namespace BinaryTreeExamples
             }
             return max;
         }
-        public static int WhichLevel(BinNode<int> root, int x)
+        public static int WhichLevel<T>(BinNode<T> root, T x)
         {
+            if (root == null)
+                return -1;
             int level = 0;
-            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
-            BinNode<int> node;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
             queue.Insert(root);
+            levels.Insert(level);
             while (!queue.IsEmpty())
             {
                 node = queue.Remove();
-                if (node.GetValue() == x)
+                //נשלוף את הרמה של הצומת
+                level = levels.Remove();
+                if (node.GetValue().Equals(x))
                     return level; 
                 if(node.HasLeft())
                 {
                     queue.Insert(node.GetLeft());
-                    level++;
+                    //נכניס את הרמה הבאה
+                    levels.Insert(level + 1);
                 } 
                 if (node.HasRight())
                 {
                     queue.Insert(node.GetRight());
-                    level++;
+                    //נכניס את הרמה הבאה
+                    levels.Insert(level + 1);
                 }
-                   
             }
+            return -1;
+        }
 
+        //עמוד 184 - שאלות 38, 39, 41
+
+        //פעולה המקבלת עץ בינארי של מספרים שלמים ומספר רמה, ומדפיסה את כל איברי העץ באותה רמה.
+        public static void PrintLevel(BinNode<int> root, int level)
+        {
+            if (root == null)
+                Console.WriteLine("there is no level");
+            int l = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(l);
+            while (!queue.IsEmpty()&&l!=level)
+            {
+                node = queue.Remove();
+                l = levels.Remove();
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    levels.Insert(l + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(l + 1);
+                }
+            }
+           while(!queue.IsEmpty())
+            {
+                Console.WriteLine(queue.Remove());
+            }
+        }
+        //פעולה המקבלת עץ בינארי של מספרים שלמים ומדפיסה את ערכי הצמתים ברמות הזוגיות של העץ
+        public static void PrintEvenLevels(BinNode<int> root)
+        {
+            if (root == null)
+                Console.WriteLine("there is no even levels");
+            int level = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                level = levels.Remove();
+                if (level%2==0)
+                {
+                    Console.WriteLine(node.GetValue());
+                }
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1);
+                }
+            }
+        }
+        //פעולה המקבלת שני ערכים הנמצאים בעץ בינארי של מספרים שלמים, ומחזירה את הפרש הרמות ביניהם
+        public static int LevelDifference(BinNode<int> root, int v1, int v2)
+        {
+            int Lv1=0 ;
+            int Lv2=0 ;
+            int level = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                level = levels.Remove();
+                if (node.GetValue()==v1)
+                    Lv1= level;
+                if (node.GetValue() == v2)
+                    Lv2 = level; 
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1);
+                }
+            }
+            if (Lv1 > Lv2)
+                return Lv1 - Lv2;
+            else if (Lv2 > Lv1)
+                return Lv2 - Lv1;
+            return 0;
         }
     }
 
