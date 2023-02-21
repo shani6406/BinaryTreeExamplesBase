@@ -11,14 +11,17 @@ namespace BinaryTreeExamples
 
 
             BinNode<int> root = new BinNode<int>(54);
-            BinNode<int> left = new BinNode<int>(null, 77, new BinNode<int>(55));
-            BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 48, null);
+            BinNode<int> left = new BinNode<int>(new BinNode<int>(53), 77, new BinNode<int>(55));
+            BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 78, new BinNode<int>(65));
             root.SetRight(right);
             root.SetLeft(left);
             BTHelper.PrintInOrder(root);
             Console.WriteLine(BTHelper.LevelDifference(root, 54, 63));
             BTHelper.PrintLevel(root, 1);
             BTHelper.PrintEvenLevels(root);
+            Console.WriteLine(BTHelper.WidthOfTree(root));
+            Console.WriteLine(BTHelper.WidthOfTreeArray(root));
+            Console.WriteLine(BTHelper.IsLightTree(root));
             //Console.WriteLine(BTHelper.IsExistInTree(root, 48));
             //Console.WriteLine(bt);
             //  Console.WriteLine("InOrder:");

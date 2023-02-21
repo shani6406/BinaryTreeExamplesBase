@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Reflection.Emit;
 //using System.Collections.Generic;
 //using System.ComponentModel.Design.Serialization;
@@ -395,10 +396,137 @@ namespace BinaryTreeExamples
                 return Lv2 - Lv1;
             return 0;
         }
+
+        //רוחב של עץ מוגדר כמס' הצמתים הגדול ביותר ברמה כלשהי בעץ
+        //הפעולה מקבלת עץ בינארי ומחזירה את רוחבו
+        public static int WidthOfTree<T>(BinNode<T> root)
+        {
+        if (root == null)
+            return 0;
+        int width = 0;
+        int count=0;
+        int level = 0;
+        Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+        BinNode<T> node;
+        Queue<int> levels = new Queue<int>();
+        queue.Insert(root);
+        levels.Insert(level);
+        width = 1;
+        while (!queue.IsEmpty() )
+        {
+            node = queue.Remove();
+            level = levels.Remove();
+            if (node.HasLeft())
+            {
+                queue.Insert(node.GetLeft());
+                levels.Insert(level + 1);
+                count++;
+            }
+            if (node.HasRight())
+            {
+                queue.Insert(node.GetRight());
+                levels.Insert(level + 1);
+                count++;
+            }
+            if (width<count)
+                width = count;
+            if(levels.IsEmpty()||level!=levels.Head())
+                 count = 0; 
+        }
+        return width;
+        
+        }
+        public static int HighOfTree<T>(BinNode<T> root)
+        {
+            if (root == null)
+                return 0;
+            int level = 0;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                level = levels.Remove();
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1);
+                }
+            }
+            return level;
+
+        }
+        public static int WidthOfTreeArray<T>(BinNode<T> root)
+        {            
+            int high = HighOfTree(root);
+            int[] arr = new int[high+1];
+            for(int i=0; i<arr.Length; i++)
+                arr[i] = 0;
+            int level = 0;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                level = levels.Remove();
+                arr[level]+=1;
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1); 
+                }
+            }
+            int max = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (max < arr[i])
+                    max = arr[i];
+            }
+            return max;
+        }
+
+        public static bool IsLightTree(BinNode<int> root)
+        {
+            if(root==null) return false;
+            bool b = false; 
+            if (root.HasLeft()&&root.HasRight())
+            {
+                BinNode<int> left = root.GetLeft();
+                BinNode<int> right = root.GetRight();
+                if (IsLeaf(left)&&IsLeaf(right))
+                {
+                    if(left.GetValue()>right.GetValue())
+                    {
+                        if (left.GetValue() - right.GetValue() <= 2)
+                            b=true; 
+                    }
+                    if (left.GetValue() < right.GetValue())
+                    {
+                        if (right.GetValue() - left.GetValue() <= 2)
+                            b=true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            return IsLightTree(root.GetLeft())&&IsLightTree(root.GetRight()); 
+        }
     }
-
-
-
-
 
 }
