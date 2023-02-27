@@ -263,6 +263,24 @@ namespace BinaryTreeExamples
             }
             return max;
         }
+        public static int MinBradthSearch(BinNode<int> root)
+        {
+            int min = root.GetValue();
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            queue.Insert(root);
+            while(!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                if(node.GetValue() < min)
+                    min = node.GetValue();
+                if(node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if(node.HasRight())
+                    queue.Insert(node.GetRight());
+            }
+            return min;
+        }
         public static int WhichLevel<T>(BinNode<T> root, T x)
         {
             if (root == null)
@@ -501,32 +519,78 @@ namespace BinaryTreeExamples
             return max;
         }
 
-        public static bool IsLightTree(BinNode<int> root)
+        //public static bool IsLightTree(BinNode<int> root)
+        //{
+        //    if(root==null) return false;
+        //    bool b = false; 
+        //    if (root.HasLeft()&&root.HasRight())
+        //    {
+        //        BinNode<int> left = root.GetLeft();
+        //        BinNode<int> right = root.GetRight();
+        //        if (IsLeaf(left)&&IsLeaf(right))
+        //        {
+        //            if(left.GetValue()>right.GetValue())
+        //            {
+        //                if (left.GetValue() - right.GetValue() <= 2)
+        //                    b=true; 
+        //            }
+        //            if (left.GetValue() < right.GetValue())
+        //            {
+        //                if (right.GetValue() - left.GetValue() <= 2)
+        //                    b=true;
+        //            }
+        //            else
+        //                return false;
+        //        }
+        //    }
+        //    return IsLightTree(root.GetLeft())&&IsLightTree(root.GetRight()); 
+        //}
+
+
+        #region חיפוש עץ בינארי
+        public static BinNode<int> InsertToSearchTree(BinNode<int> root, int x)
         {
-            if(root==null) return false;
-            bool b = false; 
-            if (root.HasLeft()&&root.HasRight())
-            {
-                BinNode<int> left = root.GetLeft();
-                BinNode<int> right = root.GetRight();
-                if (IsLeaf(left)&&IsLeaf(right))
-                {
-                    if(left.GetValue()>right.GetValue())
-                    {
-                        if (left.GetValue() - right.GetValue() <= 2)
-                            b=true; 
-                    }
-                    if (left.GetValue() < right.GetValue())
-                    {
-                        if (right.GetValue() - left.GetValue() <= 2)
-                            b=true;
-                    }
-                    else
-                        return false;
-                }
-            }
-            return IsLightTree(root.GetLeft())&&IsLightTree(root.GetRight()); 
+            if (root == null)
+               return new BinNode<int>(x);
+            if(root.GetValue()>x)
+                root.SetLeft(InsertToSearchTree(root.GetLeft(), x));
+            
+            else
+                root.SetRight(InsertToSearchTree(root.GetRight(), x));
+            return root; 
         }
+        //public static int CountNode<T>(BinNode<T> root)
+        //{
+        //    int count = 0;
+        //    if (root == null)
+        //        return count;
+        //    count++;
+        //    count = 1 + CountNode(root.GetLeft()) + CountNode(root.GetRight());
+        //    return count;
+        //}
+        //  public static int[] ImsertArray(BinNode<int> root)
+
+        
+        public static bool IsSearchTree(BinNode<int> root)
+        {
+            if (root == null)
+                return true;
+            if(root.HasLeft())
+            {
+                if (root.GetValue() <= MaxBradthSearch(root.GetLeft()))
+                    return false;
+            }
+            if(root.HasRight())
+            {
+                if (root.GetValue() > MinBradthSearch(root.GetRight()))
+                    return false;
+            }
+            return IsSearchTree(root.GetLeft()) && IsSearchTree(root.GetRight());
+        }
+
+
+
+        #endregion
     }
 
 }
