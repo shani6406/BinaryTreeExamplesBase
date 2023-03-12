@@ -547,6 +547,72 @@ namespace BinaryTreeExamples
         //}
 
 
+        #region שאלות חזרה למבחן
+        //בגרות 2019 שאלה מספר 6 
+        public static bool Order(BinNode<Range> root)
+        {
+            if (root == null) // אם העץ ריק, להחזיר אמת
+                return true;
+            //if (root.GetLeft()==null && root.GetRight()==null)
+            //    return true;
+            if (root.HasLeft() && root.GetLeft().GetValue().GetLow() != root.GetValue().GetLow()) //אם יש לעץ בן שמאלי וגם הבן השמאלי אינו מקיים את התנאים הנדרשים, החזר שקר
+                return false;
+            if (root.HasLeft() && root.GetValue().GetHigh() < root.GetLeft().GetValue().GetHigh() )
+                return false;
+            if (root.HasRight() && root.GetRight().GetValue().GetHigh() != root.GetValue().GetHigh()) //אם יש לעץ בן ימני וגם הבן הימני אינו מקיים את התנאים הנדרשים, החזר שקר
+                return false;
+            if (root.HasRight() && root.GetValue().GetLow() > root.GetRight().GetValue().GetLow())
+                return false;
+            if(root.HasLeft()&& root.HasRight() && root.GetLeft().GetValue().GetHigh() > root.GetRight().GetValue().GetLow()) //אם יש לעץ שני בנים והבנים אינם מקיימים את התנאי הנדרש, החזר שקר
+                return false;
+            return Order(root.GetLeft())&&Order(root.GetRight()); //החזר עץ-טווחים אם בן שמאלי של העץ וגם בן ימני של העץ 
+        }
+        
+
+        //בגרות 2020 שאלה 6
+        public static int CountDivisionByThree(BinNode<int> root, int leftovers)//פעולה המחזירה את כמות הצמתים בעץ שמתחלקים ב-3 עם השארית הנתונה 
+        {
+            if (root == null)
+                return 0;
+            if(root.GetValue()%3==leftovers)
+                return 1+CountDivisionByThree(root.GetLeft(), leftovers)+CountDivisionByThree(root.GetRight(), leftovers);
+            else 
+                return CountDivisionByThree(root.GetLeft(), leftovers) + CountDivisionByThree(root.GetRight(), leftovers);
+        }
+
+        //פעולה הבודקת אם הוא "עץ שאריות שיוויוני" כלומר, אם כמות האיברים המתחלקים ב-3 עם שארית 1 שווה לכמות האיברים המתחלקים ב-3 עם שארית 2 ושווה לכמות האיברים במתחלקים ב-3 ללא שארית 
+        public static bool TreeEqual(BinNode<int> root)
+        {
+            return (CountDivisionByThree(root, 1) == CountDivisionByThree(root, 2) && CountDivisionByThree(root, 1) == CountDivisionByThree(root, 0));
+        }
+
+
+        //בגרות 2020 מועד א' שאלה 6 
+
+        //פעולת עזר המקבלת עץ ומספר שלם ומדפיסה את המסלולים שבעץ  
+        public static void PrintAll(BinNode<int> root)
+        {
+            PrintAll(root, 0);
+            //if(root!=null)
+            //{
+            //    Console.WriteLine(root.GetValue());
+            //}
+            //PrintAll(root.GetLeft());
+            //PrintAll(root.GetRight());
+        }
+        //פעולה המדפיסה את כל המספרים שהמסלולים בעץ מייצגים
+        public static void PrintAll(BinNode<int> root, int num)
+        {
+            if (root != null)
+            {
+                num = num * 10 + root.GetValue();
+                PrintAll(root.GetLeft(), num);
+                PrintAll (root.GetRight(), num);
+                if (IsLeaf(root)) { Console.WriteLine(num); }
+            }
+        }
+        #endregion
+
         #region חיפוש עץ בינארי
         public static BinNode<int> InsertToSearchTree(BinNode<int> root, int x)
         {
