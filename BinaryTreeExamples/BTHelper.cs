@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Reflection.Emit;
 //using System.Collections.Generic;
@@ -658,7 +659,7 @@ namespace BinaryTreeExamples
                 node = queue.Remove();
                 if(level != levels.Head())
                 {
-                    if (cuurentSum < beforeSum)
+                    if (cuurentSum <= beforeSum)
                         return false;
                     beforeSum = cuurentSum;
                     cuurentSum = 0;
@@ -679,43 +680,55 @@ namespace BinaryTreeExamples
             }
             return true;
         }
-        /* public static int WidthOfTree<T>(BinNode<T> root)
-        {
-        if (root == null)
-            return 0;
-        int width = 0;
-        int count=0;
-        int level = 0;
-        Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
-        BinNode<T> node;
-        Queue<int> levels = new Queue<int>();
-        queue.Insert(root);
-        levels.Insert(level);
-        width = 1;
-        while (!queue.IsEmpty() )
-        {
-            node = queue.Remove();
-            level = levels.Remove();
-            if (node.HasLeft())
-            {
-                queue.Insert(node.GetLeft());
-                levels.Insert(level + 1);
-                count++;
-            }
-            if (node.HasRight())
-            {
-                queue.Insert(node.GetRight());
-                levels.Insert(level + 1);
-                count++;
-            }
-            if (width<count)
-                width = count;
-            if(levels.IsEmpty()||level!=levels.Head())
-                 count = 0; 
-        }
-        return width;
         
-        }*/
+        /*עץ בוסר מוגדר כך: עלה או שורש ושני בנים,
+         * שכל אחד מהם הוא עץ בוסר, 
+         * כך שערכו של הבן הימני גדול מערכו של הבן השמאלי, 
+         * וערכיהם של שניהם גדולים מערך השורש.*/
+        public static bool IsUnripeTree(BinNode<int> root)//לא החזרתי אמת בכלל... אז איך זה בעצם יעבוד?
+        {
+            if(root == null) return false;  
+            if(!IsLeaf(root)||!(root.HasLeft()&&root.HasRight())) return false;
+            if (root.HasLeft() && root.HasRight())
+            {
+               int sum = root.GetRight().GetValue() + root.GetLeft().GetValue();
+               if (root.GetRight().GetValue()<root.GetLeft().GetValue() || sum<root.GetValue()) return false;
+            }
+            return IsUnripeTree(root.GetLeft())&&IsUnripeTree(root.GetRight());
+        }
+        /*עץ אומגה מוגדר כך: עלה, או שורש ושני בנים שכל אחד מהם הוא עץ אומגה 
+         כך שערך השורש קטן או שווה לסכום ערכי כל הצמתים בתת עץ השמאלי שלו 
+        וגדול או שווה לסכום ערכי כל הצמתים בתת עץ הימני שלו. */
+        public static bool IsOmegaTree(BinNode<int> T)
+        {
+            if(T == null) return true;
+            if ((T.GetValue() > SumLeftOrRight(T.GetLeft())) && (T.GetValue() < SumLeftOrRight(T.GetLeft())))
+                return false;
+            return IsOmegaTree(T.GetLeft())&&IsOmegaTree(T.GetRight());
+        }
+        public static int SumLeftOrRight(BinNode<int> T)
+        {
+            if(T==null) return 0;
+            return T.GetValue()+SumLeftOrRight(T.GetLeft())+ T.GetValue() + SumLeftOrRight(T.GetRight());
+        }
+
+        //בגרות 2022 שאלה 7
+        //פעולה המחזירה את המחרוזת ללא התו הראשון, הפעולה נתונה ולא צריך לממש אותה  
+        public static string EraseFirst(string str)
+        { return ""; }
+        //פעולה המחזירה אמת אם קיים בעץ מסלול המתחיל בשורש
+        //ומכיל את כל האותיות של המילה הנתונה, ושקר אחרת
+        public static bool WordFromRoot(BinNode<char> tree, string str)
+        {
+            if (str == "")
+                return true;
+            if(tree==null) 
+                return false;
+            if (tree.GetValue() != str[0])
+                return false;
+            str = EraseFirst(str);
+            return WordFromRoot(tree.GetLeft(),str)||WordFromRoot(tree.GetRight(),str);
+        }
         #endregion
 
         #region חיפוש עץ בינארי
