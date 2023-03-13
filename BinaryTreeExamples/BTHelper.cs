@@ -611,6 +611,111 @@ namespace BinaryTreeExamples
                 if (IsLeaf(root)) { Console.WriteLine(num); }
             }
         }
+
+        /*עץ זיגזג הוא עץ בינארי לא ריק שכל הצמתים מקיימים בדיוק אחד מהכללים הבאים: הצומת הוא שורש העץ,
+         * הצומת הוא עלה,  הצומת הוא בן ימני שיש לו בן שמאלי,  הצומת הוא בן שמאלי שיש לו בן ימני
+         מהו מספר הצמתים המינימליים בעץ זיגזג? מספר הצמתים המינימלי הוא 2*/
+        public static bool IsZigZag<T>(BinNode<T> root)
+        {
+            if ((root == null) || (IsLeaf(root)))
+                return false;
+            return (IsZigZag(root.GetLeft(), 1) && IsZigZag(root.GetRight(),2));    
+        }
+        public static bool IsZigZag<T>(BinNode<T> root, int LeftOrRight)
+        {
+            if ((root == null) || (IsLeaf(root)))
+                return true;
+            if(LeftOrRight==1)
+            {
+                if(!root.HasRight())
+                    return false;
+            }
+            if(LeftOrRight==2)
+            {
+                if(!root.HasLeft())
+                    return false;
+            }
+            return (IsZigZag(root.GetLeft(), 1) && IsZigZag(root.GetRight(), 2));
+        }
+
+        /*עץ ממוין שכבתי הינו עץ ריק, או עץ שסכום האיברים בכל רמה בו קטן מסכום כל האיברים ברמה שמתחתיה. 
+         * (סכום האיברים ברמה n קטן מסכום האיברים ברמה n+1)
+         * האם כל אחד מהעצים הבאים הוא עץ ממוין שכבתי? נמקו
+         כתוב פעולה המקבלת עץ ומחזירה אמת אם העץ הינו עץ ממוין שכבתי ושקר אחרת*/
+        public static bool IsLayeredSortedTree(BinNode<int> root)
+        {
+            if (root == null) return true;
+            int beforeSum = root.GetValue();
+            int cuurentSum = 0;
+            int level = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                if(level != levels.Head())
+                {
+                    if (cuurentSum < beforeSum)
+                        return false;
+                    beforeSum = cuurentSum;
+                    cuurentSum = 0;
+                }
+                level = levels.Remove();
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    cuurentSum += node.GetLeft().GetValue();
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    cuurentSum += node.GetRight().GetValue();
+                    levels.Insert(level + 1);
+                }
+            }
+            return true;
+        }
+        /* public static int WidthOfTree<T>(BinNode<T> root)
+        {
+        if (root == null)
+            return 0;
+        int width = 0;
+        int count=0;
+        int level = 0;
+        Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+        BinNode<T> node;
+        Queue<int> levels = new Queue<int>();
+        queue.Insert(root);
+        levels.Insert(level);
+        width = 1;
+        while (!queue.IsEmpty() )
+        {
+            node = queue.Remove();
+            level = levels.Remove();
+            if (node.HasLeft())
+            {
+                queue.Insert(node.GetLeft());
+                levels.Insert(level + 1);
+                count++;
+            }
+            if (node.HasRight())
+            {
+                queue.Insert(node.GetRight());
+                levels.Insert(level + 1);
+                count++;
+            }
+            if (width<count)
+                width = count;
+            if(levels.IsEmpty()||level!=levels.Head())
+                 count = 0; 
+        }
+        return width;
+        
+        }*/
         #endregion
 
         #region חיפוש עץ בינארי
