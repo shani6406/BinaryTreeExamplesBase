@@ -594,12 +594,6 @@ namespace BinaryTreeExamples
         public static void PrintAll(BinNode<int> root)
         {
             PrintAll(root, 0);
-            //if(root!=null)
-            //{
-            //    Console.WriteLine(root.GetValue());
-            //}
-            //PrintAll(root.GetLeft());
-            //PrintAll(root.GetRight());
         }
         //פעולה המדפיסה את כל המספרים שהמסלולים בעץ מייצגים
         public static void PrintAll(BinNode<int> root, int num)
@@ -687,12 +681,12 @@ namespace BinaryTreeExamples
          * וערכיהם של שניהם גדולים מערך השורש.*/
         public static bool IsUnripeTree(BinNode<int> root)//לא החזרתי אמת בכלל... אז איך זה בעצם יעבוד?
         {
-            if(root == null) return false;  
-            if(!IsLeaf(root)||!(root.HasLeft()&&root.HasRight())) return false;
+            if(IsLeaf(root)) return true;  
+            if(!(root.HasLeft()&&root.HasRight())) return false;
             if (root.HasLeft() && root.HasRight())
             {
-               int sum = root.GetRight().GetValue() + root.GetLeft().GetValue();
-               if (root.GetRight().GetValue()<root.GetLeft().GetValue() || sum<root.GetValue()) return false;
+               if( root.GetRight().GetValue()<root.GetValue()|| root.GetLeft().GetValue()<root.GetValue()||
+                root.GetRight().GetValue()<root.GetLeft().GetValue()) return false;
             }
             return IsUnripeTree(root.GetLeft())&&IsUnripeTree(root.GetRight());
         }
@@ -729,6 +723,9 @@ namespace BinaryTreeExamples
             str = EraseFirst(str);
             return WordFromRoot(tree.GetLeft(),str)||WordFromRoot(tree.GetRight(),str);
         }
+        /*כתוב פעולה המקבלת עץ בינארי מטיפוס שלם ומדפיסה כל עלה הגדול מכל אחד מאבותיו הקדמונים
+         הניחו שהעץ מכיל לפחות 2 צמתים*/
+
         #endregion
 
         #region חיפוש עץ בינארי
